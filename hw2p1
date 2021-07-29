@@ -1,0 +1,110 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <Aircraft.h>
+
+
+
+class Aircraft
+{
+	public:
+		int n1;
+		int E1;
+		int E2;
+		int E3;
+		int E4;
+		Aircraft(int n, std::string name_str) : nm(name_str), numEng(n) {}
+		//int numEngine;
+		//char name;
+		virtual const std::string type(void) const =0;
+		virtual const int maxHours(void) const =0;
+		const std::string name(void) const {return nm;}
+		int numEngines(void) const {return numEng;}
+		void setHours(int i, int h){if(i==1){E1=h;}if(i==2){E2=h;}if(i==3){E3=h;}if(i==4){E4 =h;}}
+		void print(void) const{if(numEng==4){ std::cout<<"Aircraft: "<<nm <<" type: Airbus A380 has 4 engines"<<std::endl;
+		        		std::cout <<"engine 1: "<<E1<<" hours\n";std::cout <<"engine 2: "<<E2<<" hours\n";std::cout <<"engine 3: "<<E3<<" hours\n";std::cout << "engine 4: "<<E4<<" hours\n";}
+		if(numEng==2){ std::cout<<"Aircraft: "<<nm <<" type: Boeing B737 has 2 engines"<<std::endl; std::cout <<"engine 1: "<<E1<<" hours\n"; std::cout <<"engine 2: "<<E2<<" hours\n";}
+		}
+		void printSchedule(void) const { if(numEng==4){ std::cout<<"Maintenance schedule for "<<nm <<std::endl; std::cout <<"engine 1: maintenance due in "<< E1 <<" hours\n"; std::cout <<"engine 2: maintenance due in "<<E2<<" hours\n"; std::cout <<"engine 3: maintenance due in "<< E3<<" hours\n";std::cout <<"engine 4: maintenance due in "<< E4<<" hours\n";} if(numEng==2){ std::cout<<"Maintenance schedule for "<<nm <<std::endl;
+	std::cout <<"engine 1: maintenance due in "<<E1<<" hours\n"; std::cout <<"engine 2: maintenance due in "<<E2<<" hours\n";}}
+		static Aircraft *makeAircraft(char ch, std::string name_str);
+
+	protected:
+        	const int numEng;
+        	const std::string nm;
+
+
+};
+
+
+class A380: public Aircraft
+{
+	public:
+	
+		A380(std::string name_str) : Aircraft(4, name_str) {}
+		//const std::string name(void) const {return name;}
+		virtual const std::string type(void) const { return "Airbus A380";}
+		virtual const int maxHours(void) const {return std::max(std::max(E1, E2), std::max(E3, E4));}
+		//int maxHours
+		//const std::string name
+		//int numEngines(void) const {return 4;}
+		//void setHours(int i, int h) {if(i==1){ E1=h;} else if(i==2) {E2 = h;} else if(i==3) {E3 =h;} else if(i==4) {E4 =h;}}
+		//void printSchedule(void) const { std::cout<<"Maintenance schedule for "<<name <<std::endl;
+		//std::cout <<"engine 1: maintenance due in "<< E1 <<" hours\n"; std::cout <<"engine 2: maintenance due in "<<E2<<" hours\n"; std::cout <<"engine 3:"<< std::endl;} 
+		//void print(void) const { std::cout<<"Aircraft: "<<name <<" type: Airbus A380 has 4 engines"<<std::endl;
+                //		std::cout <<"engine 1: "<<E1<<" hours\n";std::cout <<"engine 2: "<<E2<<" hours\n";std::cout <<"engine 3: "<<E3<<" hours\n";}
+
+};
+
+class B737: public Aircraft
+{
+	public:
+	
+		B737(std::string name_str) : Aircraft(2, name_str) {}
+		//int E1
+		virtual const std::string type(void) const { return "Boeing B737";}
+		virtual const int maxHours(void) const {return std::max(E1,E2);}
+		//const std::string name(void) const {return name;}
+		//int maxHours
+		//const std::string name
+		//int numEngines(void) const {return 2;}
+		//void setHours(int i, int h) {if(i==1){ E1=h;} else if(i==2) {E2 = h;}}
+		//void printSchedule(void) const { std::cout<<"Maintenance schedule for "<<name <<std::endl;
+		//std::cout <<"engine 1: maintenance due in "<<E1<<" hours\n";std::cout <<"engine 2: maintenance due in "<<E2<<" hours\n";}
+//		void print(void) const { std::cout<<"Aircraft: "<<name <<" type: Boeing B737 has 2 engines"<<std::endl;
+//						std::cout <<"engine 1: "<<E1<<" hours\n";std::cout <<"engine 2: "<<E2<<" hours\n";}
+                                                                                                                                                          
+};
+
+Aircraft *Aircraft::makeAircraft(char ch, std::string name_str)
+{
+	if(ch == 'A')
+	{
+	//	A380 a(name_str);
+		return new A380(name_str);
+	}
+	if(ch == 'B')
+	{
+	 	//B737 B(name_str);
+		return new B737(name_str);
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+
+/*
+int main()
+{
+	Aircraft *p1 = Aircraft::makeAircraft('A', "D-AIMB");
+	p1->setHours(1, 100);
+	p1->setHours(2, 300);
+	p1->setHours(3, 600);
+	p1->setHours(4, 200);
+	p1->print();
+	p1->printSchedule();
+	std::cout<<"The max hours is "<<p1->maxHours()<<std::endl;
+	delete p1;
+}*/
